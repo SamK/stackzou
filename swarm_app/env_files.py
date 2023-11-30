@@ -30,7 +30,8 @@ def list_(env):
         sys.exit(127)
 
     for file_ in files:
-        return_value.append("/".join([env_dir, file_]))
+        if file_.endswith(".env"):
+            return_value.append("/".join([env_dir, file_]))
     return return_value
 
 
