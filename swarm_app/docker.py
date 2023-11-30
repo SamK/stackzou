@@ -8,7 +8,8 @@ class Docker:
         self.cmd_prefix = env_files.cmd_prefix(c.env)
 
     def run(self, command, **kwargs):
-        return self.c.run(command, **kwargs)
+        with self.c.cd(env_files.path(self.c)):
+            return self.c.run(command, **kwargs)
 
     def configs_create(self, name, in_stream):
         """
@@ -33,5 +34,5 @@ class Docker:
         return self.c.run(command)
 
     def deploy(self, stack_name):
-        command = f"{self.cmd_prefix} docker stack deploy --prune {stack_name} --compose-file docker-compose.yml"
-        return self.c.run(command)
+        command = f"{self.cmd_prefix} docker stack deploy --prune {stack_name} --compose-file <(docker-compose config)"
+        return self.run(command)

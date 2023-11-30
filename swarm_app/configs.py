@@ -84,6 +84,6 @@ def create(c):
         envvars[local_file["key"]] = local_file["name"]
 
     # write in env file
-    envfile = f"envs/{c.env}/.configs"
+    envfile = f"envs/{c.env}/.configs.env"
     rc_file.RCFile(envfile).write(envvars, append=False)
     c.run(f"cat {envfile}")
