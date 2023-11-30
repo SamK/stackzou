@@ -4,7 +4,7 @@ from swarm_app import env_files, docker, stack
 
 @task
 def show(c, env):
-    client = docker.Docker(c, stack.name(env))
+    client = docker.Docker(c, env)
     client.show()
 
 
