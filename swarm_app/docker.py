@@ -25,8 +25,10 @@ class Docker(object):
         command = f"{self.cmd_prefix} docker-compose config"
         result = self.c.run(command)
 
-    def ps(self, stack_name):
+    def ps(self, stack_name, cmd_args=None):
         command = f"{self.cmd_prefix} docker stack ps {stack_name}"
+        if cmd_args:
+            command = " ".join([command, cmd_args])
         return self.c.run(command)
 
     def deploy(self, stack_name):

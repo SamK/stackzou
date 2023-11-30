@@ -16,10 +16,13 @@ def name_(c, env):
     print(name(env))
 
 
-@task
-def ps(c, env):
+@task(help={"env": "ENV", "command_args": 'exemple: -c "--no-trunc"'})
+def ps(c, env, command_args=None):
+    """
+    Fait un "docker stack ps"
+    """
     client = docker.Docker(c, env)
-    client.ps(name(env))
+    client.ps(name(env), command_args)
 
 
 @task
