@@ -10,7 +10,7 @@ import sys
 from invoke import task
 
 
-def list(env):
+def list_(env):
     """
     Return the env files for a specifc env
     """
@@ -35,8 +35,9 @@ def list(env):
 
 
 @task(name="list")
-def list_(c):
-    print(list(c.env))
+def list__(c):  # avec 2 underscore LOLILOL
+    """List env files of a specific env"""
+    print(list_(c.env))
 
 
 def cmd_prefix(env):
@@ -47,11 +48,11 @@ def cmd_prefix(env):
     prefix = "eval $( cat"
     suffix = ")"
 
-    files = list(env)
+    files = list_(env)
     if not files:
         return ""
 
-    for env_file in list(env):
+    for env_file in files:
         return_value += f" {env_file}"
 
     return_value = prefix + return_value + suffix

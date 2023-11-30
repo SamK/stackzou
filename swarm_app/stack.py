@@ -1,10 +1,9 @@
 import os
 from invoke import task
-from swarm_app import configs, docker, env_files
+from swarm_app import docker
 
 
 def name(env):
-    remove = "-deploy$"
     value = os.path.basename(os.getcwd())
     value = value.removesuffix("-deploy")
     value = f"{value}-{env}"
