@@ -3,11 +3,10 @@ from swarm_app import configs, env_files
 
 
 class Docker(object):
-    def __init__(self, c, env):
+    def __init__(self, c):
         self.c = c
-        self.env = env
         self.c.config.runners.local.input_sleep = 0
-        self.cmd_prefix = env_files.cmd_prefix(env)
+        self.cmd_prefix = env_files.cmd_prefix(c.env)
 
     def run(self, command, **kwargs):
         result = self.c.run(command, **kwargs)

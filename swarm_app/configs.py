@@ -32,15 +32,15 @@ def local_files():
 
 
 @task
-def list(c, env):
+def list(c):
     """List docker configs"""
-    client = docker.Docker(c, env)
-    stack_name = stack.name(env)
+    client = docker.Docker(c)
+    stack_name = stack.name(c.env)
     client.configs_list(stack_name)
 
 
 @task
-def create(c, env):
+def create(c):
     """
     Create Docker configs
 
@@ -52,14 +52,14 @@ def create(c, env):
     envvars = {}
 
     for local_file in local_files():
-        print(stack.name(env))
+        print(stack.name(c.env))
 
         local_file[
             "name"
-        ] = f"{stack.name(env)}_{local_file['key']}-{local_file['hash']}"
+        ] = f"{stack.name(c.env)}_{local_file['key']}-{local_file['hash']}"
 
         print(local_file["name"])
-        client = docker.Docker(c, env)
+        client = docker.Docker(c)
 
         # Create docker configs
         try:
@@ -80,6 +80,6 @@ def create(c, env):
         envvars[local_file["key"]] = local_file["name"]
 
     # write in env file
-    envfile = f"envs/{env}/.configs"
+    envfile = f"envs/{c.env}/.configs"
     rc_file.RC_File(envfile).write(envvars, append=False)
     c.run(f"cat {envfile}")
