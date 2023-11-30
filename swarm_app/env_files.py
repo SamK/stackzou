@@ -21,17 +21,19 @@ def list(env):
         return_value.append("/".join([env_dir, file_]))
     return return_value
 
+
 @task(name="list")
 def list_(c, env):
     print(list(env))
+
 
 def cmd_prefix(env):
     """
     Fais les trucs de variable d'environnement
     """
     return_value = ""
-    prefix = 'eval $( cat'
-    suffix = ')'
+    prefix = "eval $( cat"
+    suffix = ")"
 
     files = list(env)
     if not files:
@@ -43,4 +45,3 @@ def cmd_prefix(env):
     return_value = prefix + return_value + suffix
 
     return return_value
-

@@ -16,7 +16,6 @@ class RC_File(object):
         return vars
 
     def write(self, variables, append=False, export=False):
-
         mode = "a" if append else "w"
 
         prefix = ""

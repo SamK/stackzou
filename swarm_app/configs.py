@@ -3,7 +3,6 @@ from . import docker, stack, rc_file
 from slugify import slugify
 
 
-
 # ns.add_task(toto)
 # ns.add_collection(toto)
 import hashlib
@@ -15,16 +14,19 @@ from invoke.exceptions import UnexpectedExit
 
 import re
 
+
 def local_files():
     config_files_path = "configs"
     result = []
-    for (dir_path, dir_names, file_names) in os.walk(config_files_path):
+    for dir_path, dir_names, file_names in os.walk(config_files_path):
         for file_name in file_names:
             this_config = {}
-            this_config['path'] = "/".join([dir_path, file_name])
-            this_config['key'] = slugify(this_config['path'], separator="_").upper()
-            this_config['value'] = open(this_config['path'], "r").read()
-            this_config['hash'] = hashlib.md5(this_config['value'].encode()).hexdigest()[:8]
+            this_config["path"] = "/".join([dir_path, file_name])
+            this_config["key"] = slugify(this_config["path"], separator="_").upper()
+            this_config["value"] = open(this_config["path"], "r").read()
+            this_config["hash"] = hashlib.md5(
+                this_config["value"].encode()
+            ).hexdigest()[:8]
             result.append(this_config)
     return result
 
@@ -50,20 +52,19 @@ def create(c, env):
     envvars = {}
 
     for local_file in local_files():
-
         print(stack.name(env))
 
-        local_file['name'] = (
-            f"{stack.name(env)}_{local_file['key']}-{local_file['hash']}"
-        )
+        local_file[
+            "name"
+        ] = f"{stack.name(env)}_{local_file['key']}-{local_file['hash']}"
 
-        print (local_file['name'])
+        print(local_file["name"])
         client = docker.Docker(c, env)
 
         # Create docker configs
         try:
             result = client.configs_create(
-                name=local_file['name'], in_stream=StringIO(local_file['value'])
+                name=local_file["name"], in_stream=StringIO(local_file["value"])
             )
             docker_config_id = result
             print(f"Config {local_file['name']} updated with id {docker_config_id}.")
@@ -76,7 +77,7 @@ def create(c, env):
                 raise
 
         # ca va dans le ficheir de env
-        envvars[local_file['key']] = local_file['name']
+        envvars[local_file["key"]] = local_file["name"]
 
     # write in env file
     envfile = f"envs/{env}/configs"
