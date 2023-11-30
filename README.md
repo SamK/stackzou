@@ -3,23 +3,20 @@
 ## Build
 
 ```
-pip install -r build_requirements.txt
-pip install -r requirements.txt
-export PYTHONDONTWRITEBYTECODE=1
-pyinstaller --onefile --name=swarm-app  --hidden-import=invoke swarm_app/cli.py
+make clean-all setup
+make build
 ```
 
 ## Install
 
 ```
-install ./dist/swarm-app ~/.local/bin
+make install
 ```
 
 ## Test
 
 ```
-pip install pylint
-pylint swarm_app
+make test
 ```
 
 ## Execute locally
