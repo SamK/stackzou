@@ -1,17 +1,19 @@
-from invoke import task
-from swarm_app import configs, env_files
+from swarm_app import env_files
 
 
-class Docker(object):
+class Docker:
     def __init__(self, c):
         self.c = c
         self.c.config.runners.local.input_sleep = 0
         self.cmd_prefix = env_files.cmd_prefix(c.env)
 
     def run(self, command, **kwargs):
-        result = self.c.run(command, **kwargs)
+        return self.c.run(command, **kwargs)
 
     def configs_create(self, name, in_stream):
+        """
+        Create a config return the docker config id
+        """
         command = f"{self.cmd_prefix} time docker config create {name} -"
         result = self.run(command, in_stream=in_stream, hide="both")
         return result.stdout.strip()
@@ -22,7 +24,7 @@ class Docker(object):
 
     def show(self):
         command = f"{self.cmd_prefix} docker-compose config"
-        result = self.c.run(command)
+        self.c.run(command)
 
     def ps(self, stack_name, cmd_args=None):
         command = f"{self.cmd_prefix} docker stack ps {stack_name}"

@@ -1,38 +1,43 @@
-from invoke import Collection, task
-from . import docker, stack, rc_file
-from slugify import slugify
-
-
-# ns.add_task(toto)
-# ns.add_collection(toto)
-import hashlib
-import sys
+"""
+Manipule les "docker configs" et génère les fichiers vars qui vont bien.
+"""
 import os
-import pprint
+import hashlib
 from io import StringIO
+from invoke import task
 from invoke.exceptions import UnexpectedExit
-
-import re
+from slugify import slugify
+from . import docker, stack, rc_file
 
 
 def local_files():
+    """
+    Return a list of config files dicts.
+
+    The dicts have these keys:
+    - path: the path to the file
+    - key: the key of the file (without hash)
+    - value: the content
+    - hash: a unique identifier based on the file properties
+    """
     config_files_path = "configs"
     result = []
-    for dir_path, dir_names, file_names in os.walk(config_files_path):
+    for dir_path, _, file_names in os.walk(config_files_path):
         for file_name in file_names:
             this_config = {}
             this_config["path"] = "/".join([dir_path, file_name])
             this_config["key"] = slugify(this_config["path"], separator="_").upper()
-            this_config["value"] = open(this_config["path"], "r").read()
+            with open(this_config["path"], "r") as file:
+                this_config["value"] = file.read()
             this_config["hash"] = hashlib.md5(
-                this_config["value"].encode()
+                this_config["path"].encode() + this_config["value"].encode()
             ).hexdigest()[:8]
             result.append(this_config)
     return result
 
 
-@task
-def list(c):
+@task(name="list")
+def list_(c):
     """List docker configs"""
     client = docker.Docker(c)
     stack_name = stack.name(c.env)
@@ -72,7 +77,6 @@ def create(c):
         except UnexpectedExit as e:
             if "AlreadyExists" in e.result.stderr:
                 print(f"Config {local_file['name']} already exists.")
-                pass
             else:
                 raise
 
@@ -81,5 +85,5 @@ def create(c):
 
     # write in env file
     envfile = f"envs/{c.env}/.configs"
-    rc_file.RC_File(envfile).write(envvars, append=False)
+    rc_file.RCFile(envfile).write(envvars, append=False)
     c.run(f"cat {envfile}")
