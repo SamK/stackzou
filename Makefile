@@ -31,7 +31,7 @@ test-black:
 
 test-lint:
 	. ./venv/bin/activate && \
-	pylint swarm_app
+	pylint swarm_app --max-line-length=120
 
 test-e2e:
 	. ./venv/bin/activate && \
