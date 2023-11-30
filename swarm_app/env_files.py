@@ -13,8 +13,13 @@ def list(env):
     """
     Return the env files for a specifc env
     """
+    default_env_file = "env"
     env_dir = f"envs/{env}"
-    return_value = ["env"]
+    return_value = []
+
+    if os.path.exists(default_env_file):
+        return_value.append(default_env_file)
+
     files = os.listdir(env_dir)
 
     for file_ in files:
