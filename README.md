@@ -1,7 +1,7 @@
 ## Usage
 
 ```
-swarm-app -e configs.create -e local stack.deploy -e local
+swarm-app -e env local configs.create stack.deploy
 ```
 
 ## Project structure
