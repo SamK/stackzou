@@ -6,6 +6,7 @@ Define env vars for
 
 """
 import os
+import sys
 from invoke import task
 
 
@@ -20,7 +21,13 @@ def list(env):
     if os.path.exists(default_env_file):
         return_value.append(default_env_file)
 
-    files = os.listdir(env_dir)
+    try:
+        files = os.listdir(env_dir)
+    except FileNotFoundError as e:
+        print(f"Environment '{env}' is not defined locally: {e}", file=sys.stderr)
+        envs = os.listdir("envs")
+        print(f"Available envs: {envs}", file=sys.stderr)
+        sys.exit(127)
 
     for file_ in files:
         return_value.append("/".join([env_dir, file_]))
@@ -28,8 +35,8 @@ def list(env):
 
 
 @task(name="list")
-def list_(c, env):
-    print(list(env))
+def list_(c):
+    print(list(c.env))
 
 
 def cmd_prefix(env):

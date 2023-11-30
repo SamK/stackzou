@@ -12,23 +12,23 @@ def name(env):
 
 
 @task(name="name")
-def name_(c, env):
-    print(name(env))
+def name_(c):
+    print(name(c.env))
 
 
-@task(help={"env": "ENV", "command_args": 'exemple: -c "--no-trunc"'})
-def ps(c, env, command_args=None):
+@task(help={"command_args": 'exemple: -c "--no-trunc"'})
+def ps(c, command_args=None):
     """
     Fait un "docker stack ps"
     """
-    client = docker.Docker(c, env)
-    client.ps(name(env), command_args)
+    client = docker.Docker(c)
+    client.ps(name(c.env), command_args)
 
 
 @task
-def deploy(c, env):
+def deploy(c):
     """
     déploie la stack mais ne fait pas la config ou la validation
     """
-    client = docker.Docker(c, env)
-    client.deploy(name(env))
+    client = docker.Docker(c)
+    client.deploy(name(c.env))
