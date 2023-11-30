@@ -10,16 +10,23 @@ import sys
 from invoke import task
 
 
-def list_(env):
+def path(c):
     """
-    Return the env files for a specifc env
+    Return the path to the current environment
     """
-    default_env_file = "env"
+    return f"envs/{c.env}"
+
+
+def list_(env, basename):
+    """
+    Return une liste de fichiers env
+
+    * env: le nom de l'env
+    * basename à True pour uniquement le fichier
+    * basename à False pour le chemin complet
+    """
     env_dir = f"envs/{env}"
     return_value = []
-
-    if os.path.exists(default_env_file):
-        return_value.append(default_env_file)
 
     try:
         files = os.listdir(env_dir)
@@ -31,14 +38,17 @@ def list_(env):
 
     for file_ in files:
         if file_.endswith(".env"):
-            return_value.append("/".join([env_dir, file_]))
+            if basename:
+                return_value.append(file_)
+            else:
+                return_value.append("/".join([env_dir, file_]))
     return return_value
 
 
 @task(name="list")
 def list__(c):  # avec 2 underscore LOLILOL
     """List env files of a specific env"""
-    print(list_(c.env))
+    print(list_(c.env, basename=True))
 
 
 def cmd_prefix(env):
@@ -46,10 +56,10 @@ def cmd_prefix(env):
     Fais les trucs de variable d'environnement
     """
     return_value = ""
-    prefix = "eval $( cat"
-    suffix = ")"
+    prefix = "export $(cat"
+    suffix = ");"
 
-    files = list_(env)
+    files = list_(env, basename=True)
     if not files:
         return ""
 
