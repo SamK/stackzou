@@ -48,6 +48,12 @@ make install
 make test
 ```
 
+## Standard
+
+```
+make clean build install
+```
+
 ## Execute locally
 
 ```
