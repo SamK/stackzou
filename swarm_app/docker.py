@@ -31,7 +31,7 @@ class Docker:
         command = f"{self.cmd_prefix} docker stack ps {stack_name}"
         if cmd_args:
             command = " ".join([command, cmd_args])
-        return self.c.run(command)
+        return self.run(command)
 
     def deploy(self, stack_name):
         command = f"{self.cmd_prefix} docker stack deploy --prune {stack_name} --compose-file <(docker-compose config)"
