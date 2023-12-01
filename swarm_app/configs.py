@@ -1,6 +1,7 @@
 """
 Manipule les "docker configs" et génère les fichiers vars qui vont bien.
 """
+import sys
 import os
 import hashlib
 from io import StringIO
@@ -57,6 +58,9 @@ def create(c):
     envvars = {}
 
     for local_file in local_files():
+        if "env" not in c:
+            print("ya pas de env lol. il faut spécifier un env", file=sys.stderr)
+            sys.exit(127)
         print(stack.name(c.env))
 
         local_file[
