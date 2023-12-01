@@ -25,7 +25,7 @@ class Docker:
 
     def show(self):
         command = f"{self.cmd_prefix} docker-compose config"
-        self.c.run(command)
+        self.run(command)
 
     def ps(self, stack_name, cmd_args=None):
         command = f"{self.cmd_prefix} docker stack ps {stack_name}"
