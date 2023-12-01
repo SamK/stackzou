@@ -12,6 +12,7 @@ ns.add_collection(configs)
 ns.add_collection(docker)
 ns.add_collection(env_files)
 ns.add_collection(stack)
+ns.add_task(tasks.deploy)
 ns.add_task(tasks.set_env)
 # ns.configure({'key': 'value'}) # yes, it is possible to configure from here
 
