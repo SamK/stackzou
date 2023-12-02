@@ -24,7 +24,7 @@ class Docker:
         return self.run(command)
 
     def show(self):
-        command = f"{self.cmd_prefix} docker-compose config"
+        command = f"{self.cmd_prefix} docker stack config --compose-file docker-compose.yml --compose-file docker-compose.override.yml"
         self.run(command)
 
     def ps(self, stack_name, cmd_args=None):
@@ -34,5 +34,5 @@ class Docker:
         return self.run(command)
 
     def deploy(self, stack_name):
-        command = f"{self.cmd_prefix} docker stack deploy --prune {stack_name} --compose-file <(docker-compose config)"
+        command = f"{self.cmd_prefix} docker stack deploy --prune {stack_name} --compose-file docker-compose.yml --compose-file docker-compose.override.yml"
         return self.run(command)
