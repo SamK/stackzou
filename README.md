@@ -17,14 +17,13 @@ Ton projet de ressemble à un truc comme ça:
 │       └── index.html
 ├── envs/
 │   ├── local/
-│   │   ├── docker-compose.override.yml  # pas obligatoire
-│   │   ├── docker-compose.yml -> ../../docker-compose.base.yml
-│   │   └── env.env
+│   │   ├── docker-compose.override.yml
+│   │   └── .env # le fichier doit finir par .env
 │   ├── prod/
 │   │   └── ... pareil
 │   └── test/
 │       └── ... pareil
-├── variables.env
+├── .env
 └── docker-compose.yml
 ```
 
