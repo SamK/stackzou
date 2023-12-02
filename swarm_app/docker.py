@@ -8,8 +8,7 @@ class Docker:
         self.cmd_prefix = env_files.cmd_prefix(c.env)
 
     def run(self, command, **kwargs):
-        with self.c.cd(env_files.path(self.c)):
-            return self.c.run(command, **kwargs)
+        return self.c.run(command, **kwargs)
 
     def configs_create(self, name, in_stream):
         """
@@ -24,7 +23,7 @@ class Docker:
         return self.run(command)
 
     def show(self):
-        command = f"{self.cmd_prefix} docker-compose config"
+        command = f"{self.cmd_prefix} docker stack config --compose-file docker-compose.yml --compose-file envs/{self.c.env}/docker-compose.override.yml"
         self.run(command)
 
     def ps(self, stack_name, cmd_args=None):
@@ -34,5 +33,5 @@ class Docker:
         return self.run(command)
 
     def deploy(self, stack_name):
-        command = f"{self.cmd_prefix} docker stack deploy --prune {stack_name} --compose-file <(docker-compose config)"
+        command = f"{self.cmd_prefix} docker stack deploy --prune {stack_name} --compose-file docker-compose.yml --compose-file envs/{self.c.env}/docker-compose.override.yml"
         return self.run(command)
