@@ -19,14 +19,17 @@ def path(c):
 
 def list_(env, basename):
     """
-    Return une liste de fichiers env
+    Return une liste de fichiers env existants
 
     * env: le nom de l'env
     * basename à True pour uniquement le fichier
     * basename à False pour le chemin complet
     """
-    env_dir = f"envs/{env}"
     return_value = []
+
+    # Cherche dans le env
+
+    env_dir = f"envs/{env}"
 
     try:
         files = os.listdir(env_dir)
@@ -42,6 +45,16 @@ def list_(env, basename):
                 return_value.append(file_)
             else:
                 return_value.append("/".join([env_dir, file_]))
+
+    # charnge dans "."
+    files = os.listdir(".")
+    for file_ in files:
+        if file_.endswith(".env"):
+            if basename:
+                return_value.append(file_)
+            else:
+                return_value.append("/".join([env_dir, file_]))
+
     return return_value
 
 

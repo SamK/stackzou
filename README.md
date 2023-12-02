@@ -24,9 +24,8 @@ Ton projet de ressemble à un truc comme ça:
 │   │   └── ... pareil
 │   └── test/
 │       └── ... pareil
-├── README
-├── env
-└── docker-compose.base.yml
+├── variables.env
+└── docker-compose.yml
 ```
 
 ## Build
