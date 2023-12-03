@@ -69,13 +69,11 @@ def create(c):
         if "env" not in c:
             print("ya pas de env lol. il faut spécifier un env", file=sys.stderr)
             sys.exit(127)
-        print(stack.name(c.env))
 
         local_file[
             "name"
         ] = f"{stack.name(c.env)}_{local_file['key']}-{local_file['hash']}"
 
-        print(local_file["name"])
         client = docker.Docker(c)
 
         # Create docker configs
