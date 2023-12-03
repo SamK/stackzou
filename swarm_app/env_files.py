@@ -65,7 +65,9 @@ def cmd_prefix(env):
 
     env_dir = f"envs/{env}"
     env_files = list_(env_dir, basename=False)
-    files = list_(".", basename=True)
+    default_files = list_(".", basename=True)
+
+    files = env_files + default_files
 
     if not files:
         return ""
