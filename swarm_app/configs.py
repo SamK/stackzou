@@ -27,7 +27,15 @@ def local_files():
         for file_name in file_names:
             this_config = {}
             this_config["path"] = "/".join([dir_path, file_name])
-            this_config["key"] = slugify(this_config["path"], separator="_").upper()
+
+            # define the key (limited to 64 chars)
+            key = this_config["path"]
+            # remove config_files_path:
+            if key.startswith(config_files_path):
+                key = key.removeprefix(config_files_path)
+            key = key.strip("/")
+            this_config["key"] = slugify(key, separator="_").upper()
+
             with open(this_config["path"], "r") as file:
                 this_config["value"] = file.read()
             this_config["hash"] = hashlib.md5(
