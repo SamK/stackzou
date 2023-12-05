@@ -6,6 +6,11 @@ class Docker:
         self.c = c
         self.c.config.runners.local.input_sleep = 0
         self.cmd_prefix = env_files.cmd_prefix(c.env)
+        self.stack_args = (
+            "--compose-file docker-compose.yml"
+            " "
+            f"--compose-file envs/{self.c.env}/docker-compose.override.yml"
+        )
 
     def run(self, command, **kwargs):
         return self.c.run(command, **kwargs)
@@ -23,7 +28,7 @@ class Docker:
         return self.run(command)
 
     def show(self):
-        command = f"{self.cmd_prefix} docker stack config --compose-file docker-compose.yml --compose-file envs/{self.c.env}/docker-compose.override.yml"
+        command = f"{self.cmd_prefix} docker stack config {self.stack_args}"
         self.run(command)
 
     def ps(self, stack_name, cmd_args=None):
@@ -33,5 +38,5 @@ class Docker:
         return self.run(command)
 
     def deploy(self, stack_name):
-        command = f"{self.cmd_prefix} docker stack deploy --prune {stack_name} --compose-file docker-compose.yml --compose-file envs/{self.c.env}/docker-compose.override.yml"
+        command = f"{self.cmd_prefix} docker stack deploy --prune {stack_name} {self.stack_args}"
         return self.run(command)
