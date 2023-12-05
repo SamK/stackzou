@@ -3,6 +3,7 @@ Manipule les "docker configs" et génère les fichiers vars qui vont bien.
 """
 import sys
 import os
+import pathlib
 import hashlib
 from io import StringIO
 from invoke import task
@@ -61,9 +62,10 @@ def create(c):
     Create docker configs (docker config list)
 
     """
-    # find all the files
-
+    envfile = f"envs/{c.env}/.configs.env"
     envvars = {}
+
+    # find all the files
 
     for local_file in local_files():
         if "env" not in c:
@@ -93,7 +95,10 @@ def create(c):
         # ca va dans le ficheir de env
         envvars[local_file["key"]] = local_file["name"]
 
-    # write in env file
-    envfile = f"envs/{c.env}/.configs.env"
-    rc_file.RCFile(envfile).write(envvars, append=False)
-    c.run(f"cat {envfile}")
+    if envvars:
+        # write in env file and show the result on screen
+        rc_file.RCFile(envfile).write(envvars, append=False)
+        c.run(f"cat {envfile}")
+    else:
+        # no env vars, make sure the file does not exist
+        pathlib.Path(envfile).unlink(missing_ok=True)
