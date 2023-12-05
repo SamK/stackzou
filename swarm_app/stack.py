@@ -25,6 +25,13 @@ def ps(c, command_args=None):
 
 
 @task
+def rm(c):
+    """Fait un "docker stack rm" """
+    client = docker.Docker(c)
+    client.rm(name(c.env))
+
+
+@task
 def deploy(c):
     """
     déploie la stack mais ne fait pas la config ou la validation

@@ -44,6 +44,11 @@ class Docker:
             command = " ".join([command, cmd_args])
         return self.run(command)
 
+    def rm(self, stack_name):
+        """rm a stack"""
+        command = f"{self.cmd_prefix}docker stack rm {stack_name}"
+        return self.run(command)
+
     def deploy(self, stack_name):
         """deploy a stack"""
         command = f"{self.cmd_prefix}docker stack deploy --prune {stack_name} {self.stack_args}"
