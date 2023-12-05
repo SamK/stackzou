@@ -8,7 +8,6 @@ Define env vars for
 import os
 import sys
 from pathlib import Path
-from invoke import task
 from swarm_app import stack
 
 
@@ -58,12 +57,6 @@ def find_envfiles(c):
     if os.path.exists(secret_file):
         found_envfiles.append(secret_file)
     return found_envfiles
-
-
-@task(name="list")
-def list_(c):  # avec 2 underscore LOLILOL
-    """List env files of a specific env"""
-    print(find_envfiles(c))
 
 
 def cmd_prefix(c):
