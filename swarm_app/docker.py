@@ -8,7 +8,7 @@ class Docker:
     def __init__(self, c):
         self.c = c
         self.c.config.runners.local.input_sleep = 0
-        self.cmd_prefix = env_files.cmd_prefix(c.env)
+        self.cmd_prefix = env_files.cmd_prefix(c)
         self.stack_args = (
             "--compose-file docker-compose.yml"
             " "
