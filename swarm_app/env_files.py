@@ -7,17 +7,18 @@ Define env vars for
 """
 import os
 import sys
-from invoke import task
+from pathlib import Path
+from swarm_app import stack
 
 
-def path(c):
+def envpath(c):
     """
     Return the path to the current environment
     """
     return f"envs/{c.env}"
 
 
-def list_(path, basename):
+def dir_(path, basename):
     """
     Return une liste de fichiers env existants dans un dossier
 
@@ -34,7 +35,7 @@ def list_(path, basename):
     except FileNotFoundError as e:
         print(f"Folder not found: '{path}': {e}", file=sys.stderr)
         raise
-        sys.exit(127)
+        # sys.exit(127)
 
     for file_ in files:
         if file_.endswith(".env"):
@@ -46,28 +47,26 @@ def list_(path, basename):
     return return_value
 
 
-@task(name="list")
-def list__(c):  # avec 2 underscore LOLILOL
-    """List env files of a specific env"""
+def find_envfiles(c):
+    """Retourne une list de envfiles existants pour un environement défini"""
+    secret_file = f"{Path.home()}/.secrets/containers/{stack.name(c.env)}.env"
     env_dir = f"envs/{c.env}"
-    env_files = list_(env_dir, basename=False)
-    default_files = list_(".", basename=True)
-    print(env_files + default_files)
+    found_envfiles = []
+    found_envfiles.extend(dir_(env_dir, basename=False))
+    found_envfiles.extend(dir_(".", basename=True))
+    if os.path.exists(secret_file):
+        found_envfiles.append(secret_file)
+    return found_envfiles
 
 
-def cmd_prefix(env):
+def cmd_prefix(c):
     """
     Fais les trucs de variable d'environnement
     """
+    files = find_envfiles(c)
     return_value = ""
     prefix = "export $(cat"
-    suffix = ") &&"
-
-    env_dir = f"envs/{env}"
-    env_files = list_(env_dir, basename=False)
-    default_files = list_(".", basename=True)
-
-    files = env_files + default_files
+    suffix = ") && "
 
     if not files:
         return ""

@@ -4,7 +4,9 @@ Beaucoup trop genial
 """
 import sys
 from invoke import Program, Collection, __version__ as invoke_version
-from swarm_app import compose, configs, docker, env_files, __version__, stack, tasks
+from swarm_app import docker, __version__
+from swarm_app import tasks
+from swarm_app.tasks import configs, stack, compose, env_files
 
 ns = Collection()
 ns.add_collection(compose)

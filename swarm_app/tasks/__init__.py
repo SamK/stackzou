@@ -4,9 +4,10 @@ Here lie Invoke commands with no subcommands.
 from invoke import task
 from . import configs, stack
 
+
 @task(pre=[configs.create], post=[stack.deploy])
-def deploy(c):
-    pass
+def deploy(c):  # pylint: disable=unused-argument
+    """Déploie ta stack"""
 
 
 @task(name="env")

@@ -33,6 +33,6 @@ class RCFile:
         if export:
             prefix = "export "
 
-        with open(self.filename, mode) as f:
+        with open(self.filename, mode=mode, encoding="utf-8") as f:
             for key, value in variables.items():
                 f.write(f"{prefix}{key}={value}\n")
