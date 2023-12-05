@@ -1,3 +1,6 @@
+"""
+Gère les commandes et les accès à Docker
+"""
 from swarm_app import env_files
 
 
@@ -13,6 +16,7 @@ class Docker:
         )
 
     def run(self, command, **kwargs):
+        """Execute a docker command"""
         return self.c.run(command, **kwargs)
 
     def configs_create(self, name, in_stream):
@@ -24,19 +28,23 @@ class Docker:
         return result.stdout.strip()
 
     def configs_list(self, stack_name):
+        """List the configs"""
         command = f"{self.cmd_prefix}docker config list --format json --filter name={stack_name}"
         return self.run(command)
 
     def show(self):
+        """Show the docker compose"""
         command = f"{self.cmd_prefix}docker stack config {self.stack_args}"
         self.run(command)
 
     def ps(self, stack_name, cmd_args=None):
+        """docker stack ps"""
         command = f"{self.cmd_prefix}docker stack ps {stack_name}"
         if cmd_args:
             command = " ".join([command, cmd_args])
         return self.run(command)
 
     def deploy(self, stack_name):
+        """deploy a stack"""
         command = f"{self.cmd_prefix}docker stack deploy --prune {stack_name} {self.stack_args}"
         return self.run(command)
