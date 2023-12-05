@@ -61,7 +61,7 @@ def cmd_prefix(env):
     """
     return_value = ""
     prefix = "export $(cat"
-    suffix = ") &&"
+    suffix = ") && "
 
     env_dir = f"envs/{env}"
     env_files = list_(env_dir, basename=False)
