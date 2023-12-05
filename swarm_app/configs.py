@@ -37,7 +37,7 @@ def local_files():
             key = key.strip("/")
             this_config["key"] = slugify(key, separator="_").upper()
 
-            with open(this_config["path"], "r") as file:
+            with open(this_config["path"], mode="r", encoding="utf-8") as file:
                 this_config["value"] = file.read()
             this_config["hash"] = hashlib.md5(
                 this_config["path"].encode() + this_config["value"].encode()

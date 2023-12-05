@@ -5,6 +5,8 @@ from swarm_app import env_files
 
 
 class Docker:
+    """On tente de dompter la commande docker"""
+
     def __init__(self, c):
         self.c = c
         self.c.config.runners.local.input_sleep = 0

@@ -12,7 +12,7 @@ from invoke import task
 from swarm_app import stack
 
 
-def path(c):
+def envpath(c):
     """
     Return the path to the current environment
     """
@@ -36,7 +36,7 @@ def dir_(path, basename):
     except FileNotFoundError as e:
         print(f"Folder not found: '{path}': {e}", file=sys.stderr)
         raise
-        sys.exit(127)
+        # sys.exit(127)
 
     for file_ in files:
         if file_.endswith(".env"):
@@ -49,6 +49,7 @@ def dir_(path, basename):
 
 
 def find_envfiles(c):
+    """Retourne une list de envfiles existants pour un environement défini"""
     secret_file = f"{Path.home()}/.secrets/containers/{stack.name(c.env)}.env"
     env_dir = f"envs/{c.env}"
     found_envfiles = []
