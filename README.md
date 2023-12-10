@@ -30,7 +30,7 @@ Ton projet de ressemble à un truc comme ça:
 ## Build
 
 ```
-make clean-all setup
+make clean-all venv
 make build
 ```
 
