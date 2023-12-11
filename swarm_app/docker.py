@@ -25,7 +25,7 @@ class Docker:
         """
         Create a config return the docker config id
         """
-        command = f"{self.cmd_prefix}time docker config create {name} -"
+        command = f"{self.cmd_prefix}docker config create {name} -"
         result = self.run(command, in_stream=in_stream, hide="stdout")
         return result.stdout.strip()
 
