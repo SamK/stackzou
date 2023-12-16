@@ -2,7 +2,7 @@
 On gère la stack docker par ici
 """
 from invoke import task
-from swarm_app import docker, stack
+from stackzou import docker, stack
 
 
 @task(name="name")

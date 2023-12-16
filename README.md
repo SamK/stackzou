@@ -1,7 +1,7 @@
 ## Usage
 
 ```
-swarm-app -e env local configs.create stack.deploy
+stackzou -e env local configs.create stack.deploy
 ```
 
 ## Project structure
@@ -55,5 +55,5 @@ make clean build install
 ## Execute locally
 
 ```
-PYTHONPATH=~/Code/swarm-app python3 ~/Code/swarm-app/swarm_app/cli.py -l
+PYTHONPATH=~/Code/stackzou python3 ~/Code/stackzou/stackzou/cli.py -l
 ```

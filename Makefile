@@ -9,10 +9,10 @@ build:
 	. ./venv/bin/activate && \
 	pyinstaller \
 		--onefile \
-		--name=swarm-app \
+		--name=stackzou \
 		--hidden-import invoke \
 		--hidden-import slugify \
-		swarm_app/cli.py
+		stackzou/cli.py
 
 clean:
 	/bin/rm -rf ./build ./dist
@@ -21,18 +21,18 @@ clean-all: clean
 	/bin/rm -rf venv
 
 install:
-	install ./dist/swarm-app ~/.local/bin
+	install ./dist/stackzou ~/.local/bin
 
 test: test-black test-lint test-e2e
 
 test-black:
 	. ./venv/bin/activate && \
-	black --check --diff swarm_app
+	black --check --diff stackzou
 
 test-lint:
 	. ./venv/bin/activate && \
-	pylint swarm_app --max-line-length=120
+	pylint stackzou --max-line-length=120
 
 test-e2e:
 	. ./venv/bin/activate && \
-	./dist/swarm-app -l
+	./dist/stackzou -l

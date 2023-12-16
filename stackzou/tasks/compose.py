@@ -2,7 +2,7 @@
 Manipule le fichier docker-compose.yml
 """
 from invoke import task
-from swarm_app import docker
+from stackzou import docker
 
 
 @task

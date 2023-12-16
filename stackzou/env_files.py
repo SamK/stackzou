@@ -8,7 +8,7 @@ Define env vars for
 import os
 import sys
 from pathlib import Path
-from swarm_app import stack
+from stackzou import stack
 
 
 def envpath(c):

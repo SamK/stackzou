@@ -4,9 +4,9 @@ Beaucoup trop genial
 """
 import sys
 from invoke import Program, Collection, __version__ as invoke_version
-from swarm_app import docker, __version__
-from swarm_app import tasks
-from swarm_app.tasks import configs, stack, compose, env_files
+from stackzou import docker, __version__
+from stackzou import tasks
+from stackzou.tasks import configs, stack, compose, env_files
 
 ns = Collection()
 ns.add_collection(compose)
@@ -25,7 +25,7 @@ Invoke {invoke_version}"""
 
 program = Program(
     name="Your Swarm app",
-    binary="swarm-app",
+    binary="stackzou",
     version=version,
     namespace=ns,
 )

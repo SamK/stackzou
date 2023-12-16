@@ -6,7 +6,7 @@ Define env vars for
 
 """
 from invoke import task
-from swarm_app import env_files
+from stackzou import env_files
 
 
 @task(name="list")
