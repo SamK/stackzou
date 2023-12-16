@@ -6,8 +6,8 @@ import pathlib
 from io import StringIO
 from invoke import task
 from invoke.exceptions import UnexpectedExit
-from swarm_app import docker, stack, rc_file
-from swarm_app import configs
+from stackzou import docker, stack, rc_file
+from stackzou import configs
 
 
 @task(name="list")
