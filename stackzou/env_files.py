@@ -65,8 +65,8 @@ def cmd_prefix(c):
     """
     files = find_envfiles(c)
     return_value = ""
-    prefix = "export $(cat"
-    suffix = ") && "
+    prefix = "set -o allexport && source"
+    suffix = " && "
 
     if not files:
         return ""
