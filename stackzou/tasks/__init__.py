@@ -18,3 +18,12 @@ def set_env(c, env):
     For a list of environments, execute `ls envs`.
     """
     c.env = env
+
+
+@task
+def verbose(c):
+    """Enable verbose mode"""
+    if "loglevel" in c:
+        c.loglevel += 1
+    else:
+        c.loglevel = 1

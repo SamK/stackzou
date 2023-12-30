@@ -9,6 +9,7 @@ import os
 import sys
 from pathlib import Path
 from stackzou import stack
+from stackzou import log
 
 
 def envpath(c):
