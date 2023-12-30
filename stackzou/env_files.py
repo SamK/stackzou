@@ -57,6 +57,7 @@ def find_envfiles(c):
     found_envfiles.extend(dir_(".", basename=True))
     if os.path.exists(secret_file):
         found_envfiles.append(secret_file)
+    log.log1(c, f"Found env files: {found_envfiles}")
     return found_envfiles
 
 
