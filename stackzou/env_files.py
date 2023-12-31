@@ -9,6 +9,7 @@ import os
 import sys
 from pathlib import Path
 from stackzou import stack
+from stackzou import log
 
 
 def envpath(c):
@@ -52,10 +53,11 @@ def find_envfiles(c):
     secret_file = f"{Path.home()}/.secrets/containers/{stack.name(c.env)}.env"
     env_dir = f"envs/{c.env}"
     found_envfiles = []
-    found_envfiles.extend(dir_(env_dir, basename=False))
     found_envfiles.extend(dir_(".", basename=True))
+    found_envfiles.extend(dir_(env_dir, basename=False))
     if os.path.exists(secret_file):
         found_envfiles.append(secret_file)
+    log.log1(c, f"Found env files: {found_envfiles}")
     return found_envfiles
 
 
@@ -64,16 +66,16 @@ def cmd_prefix(c):
     Fais les trucs de variable d'environnement
     """
     files = find_envfiles(c)
-    return_value = ""
-    prefix = "set -o allexport && source"
+    commands = ["set -o allexport"]
     suffix = " && "
 
     if not files:
         return ""
 
     for env_file in files:
-        return_value += f" {env_file}"
+        commands.append(f"source {env_file}")
 
-    return_value = prefix + return_value + suffix
+    command_line = " && ".join(commands)
+    command_line += suffix
 
-    return return_value
+    return command_line
