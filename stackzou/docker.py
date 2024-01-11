@@ -1,6 +1,7 @@
 """
 Gère les commandes et les accès à Docker
 """
+import json
 from stackzou import env_files
 
 
@@ -23,7 +24,9 @@ class Docker:
 
     def configs_create(self, name, in_stream):
         """
-        Create a config return the docker config id
+        Create a config
+
+        Return the docker config id
         """
         command = f"{self.cmd_prefix}docker config create {name} -"
         result = self.run(command, in_stream=in_stream, hide="stdout")
@@ -31,8 +34,12 @@ class Docker:
 
     def configs_list(self, stack_name):
         """List the configs"""
+        configs = []
         command = f"{self.cmd_prefix}docker config list --format json --filter name={stack_name}"
-        return self.run(command)
+        result = self.run(command, hide="stdout")
+        for line in result.stdout.splitlines():
+            configs.append(json.loads(line))
+        return configs
 
     def show(self):
         """Show the docker compose"""

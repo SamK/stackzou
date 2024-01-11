@@ -5,7 +5,6 @@ import sys
 import pathlib
 from io import StringIO
 from invoke import task
-from invoke.exceptions import UnexpectedExit
 from stackzou import docker, stack, rc_file
 from stackzou import configs
 
@@ -15,7 +14,7 @@ def list_(c):
     """List docker configs"""
     client = docker.Docker(c)
     stack_name = stack.name(c.env)
-    client.configs_list(stack_name)
+    print(client.configs_list(stack_name))
 
 
 @task
@@ -26,35 +25,39 @@ def create(c):
     Create docker configs (docker config list)
 
     """
+
+    if "env" not in c:
+        print("ya pas de env lol. il faut spécifier un env", file=sys.stderr)
+        sys.exit(127)
+
     envfile = f"envs/{c.env}/.configs.env"
     envvars = {}
+    stack_name = stack.name(c.env)
+    client = docker.Docker(c)
 
-    # find all the files
+    # find all the existin docker configs
+    if "docker_configs" not in c:
+        print("ya pas de docker_configs")
+        c.docker_configs = client.configs_list(stack_name)
 
     for local_file in configs.local_files():
-        if "env" not in c:
-            print("ya pas de env lol. il faut spécifier un env", file=sys.stderr)
-            sys.exit(127)
-
         local_file[
             "name"
         ] = f"{stack.name(c.env)}_{local_file['key']}-{local_file['hash']}"
 
-        client = docker.Docker(c)
+        found = False
+        for config in c.docker_configs:
+            if config["Name"] == local_file["name"]:
+                found = True
+                break
 
-        # Create docker configs
-        try:
+        if not found:
+            # Create docker configs
             result = client.configs_create(
                 name=local_file["name"], in_stream=StringIO(local_file["value"])
             )
             docker_config_id = result
             print(f"Config {local_file['name']} updated with id {docker_config_id}.")
-        # except invoke.exceptions.UnexpectedExit as e:
-        except UnexpectedExit as e:
-            if "AlreadyExists" in e.result.stderr:
-                print(f"Config {local_file['name']} already exists.")
-            else:
-                raise
 
         # ca va dans le ficheir de env
         envvars[local_file["key"]] = local_file["name"]
