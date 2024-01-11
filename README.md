@@ -43,7 +43,7 @@ make install
 ## Test
 
 ```
-make test
+make tests
 ```
 
 ## Standard
