@@ -23,7 +23,7 @@ clean-all: clean
 install:
 	install ./dist/stackzou ~/.local/bin
 
-test: test-black test-lint test-e2e
+tests: test-black test-lint test-e2e
 
 test-black:
 	. ./venv/bin/activate && \
