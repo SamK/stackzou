@@ -61,13 +61,12 @@ def find_envfiles(c):
     return found_envfiles
 
 
-def cmd_prefix(c):
+def cmd_prefix(c, suffix=" && "):
     """
     Fais les trucs de variable d'environnement
     """
     files = find_envfiles(c)
     commands = ["set -o allexport"]
-    suffix = " && "
 
     if not files:
         return ""
