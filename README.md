@@ -27,17 +27,18 @@ Ton projet de ressemble à un truc comme ça:
 └── docker-compose.yml
 ```
 
+## Clean
+
+```
+make clean-build clean-venv
+# or
+make clean
+```
+
 ## Build
 
 ```
-make clean-all venv
-make build
-```
-
-## Install
-
-```
-make install
+make
 ```
 
 ## Test
@@ -46,10 +47,19 @@ make install
 make tests
 ```
 
+## Install
+
+```
+make install
+```
+
 ## Standard
 
 ```
-make clean build install
+make clean-all build tests
+git tag ...
+git push && git push --tags
+make install
 ```
 
 ## Execute locally

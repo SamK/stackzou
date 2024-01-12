@@ -1,38 +1,65 @@
-venv:
-	[ -d venv ] || python3 -m venv venv && \
-	. ./venv/bin/activate && \
-	pip install pyinstaller && \
-	pip install -r test_requirements.txt && \
-	pip install -r requirements.txt
+SOURCEDIR = stackzou
+requirements := venv/.requirements.txt
+test_requirements := venv/.test_requirements.txt
+SOURCEFILES := $(shell find $(SOURCEDIR) -name '*.py')
+ACTIVATE = . ./venv/bin/activate
 
-build:
-	. ./venv/bin/activate && \
+# default target
+# alias
+build: dist/stackzou
+
+venv:
+	python3 -m venv venv
+
+dist/stackzou: venv $(SOURCEFILES) $(requirements)
+	$(ACTIVATE) && \
 	pyinstaller \
 		--onefile \
 		--name=stackzou \
 		--hidden-import invoke \
 		--hidden-import slugify \
-		stackzou/cli.py
+		stackzou/cli.py && \
+	touch dist/stackzou
 
-clean:
-	/bin/rm -rf ./build ./dist
+# alias
+.PHONY: requirements
+requirements: $(requirements)
 
-clean-all: clean
-	/bin/rm -rf venv
+$(requirements): requirements.txt venv
+	$(ACTIVATE) && \
+	pip install -r requirements.txt && \
+	touch $(requirements)
+
+# alias
+.PHONY: test_requirements
+test_requirements: $(test_requirements)
+
+$(test_requirements): test_requirements.txt $(requirements)
+	$(ACTIVATE) && \
+	pip install -r test_requirements.txt && \
+	touch $(test_requirements)
 
 install:
 	install ./dist/stackzou ~/.local/bin
 
-tests: test-black test-lint test-e2e
+tests: test_requirements build test-black test-lint test-e2e
 
 test-black:
-	. ./venv/bin/activate && \
-	black --check --diff stackzou
+	$(ACTIVATE) && \
+	black --check --diff $(SOURCEDIR)
 
 test-lint:
-	. ./venv/bin/activate && \
-	pylint stackzou --max-line-length=120
+	$(ACTIVATE) && \
+	pylint $(SOURCEDIR) --max-line-length=120
 
 test-e2e:
-	. ./venv/bin/activate && \
+	$(ACTIVATE) && \
 	./dist/stackzou -l
+
+clean-build:
+	/bin/rm -rf ./build ./dist
+
+clean-venv:
+	/bin/rm -rf ./venv
+
+clean: clean-build clean-venv
