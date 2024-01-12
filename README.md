@@ -53,10 +53,10 @@ make tests
 make install
 ```
 
-## Standard
+## Release
 
 ```
-make clean-all build tests
+make clean build tests
 git tag ...
 git push && git push --tags
 make install
