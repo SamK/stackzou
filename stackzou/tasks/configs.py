@@ -37,7 +37,6 @@ def create(c):
 
     # find all the existin docker configs
     if "docker_configs" not in c:
-        print("ya pas de docker_configs")
         c.docker_configs = client.configs_list(stack_name)
 
     for local_file in configs.local_files():
