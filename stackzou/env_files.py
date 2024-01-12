@@ -49,7 +49,7 @@ def dir_(path, basename):
 
 
 def find_envfiles(c):
-    """Retourne une list de envfiles existants pour un environement défini"""
+    """Retourne une list de envfiles existants relatifs à l'environment actuel"""
     secret_file = f"{Path.home()}/.secrets/containers/{stack.name(c.env)}.env"
     env_dir = f"envs/{c.env}"
     found_envfiles = []
