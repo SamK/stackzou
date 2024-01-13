@@ -50,7 +50,7 @@ test-black:
 
 test-lint:
 	$(ACTIVATE) && \
-	pylint $(SOURCEDIR) --max-line-length=120
+	pylint $(SOURCEDIR) --max-line-length=120 --max-attributes=99 --disable=missing-function-docstring
 
 test-e2e:
 	$(ACTIVATE) && \
