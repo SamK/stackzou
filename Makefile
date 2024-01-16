@@ -42,15 +42,15 @@ $(test_requirements): test_requirements.txt $(requirements)
 install:
 	install ./dist/stackzou ~/.local/bin
 
-tests: test-black test-lint test-build
+tests: test-black test-lint test-build test-unit
 
 test-black: test_requirements
 	$(ACTIVATE) && \
-	black --check --diff $(SOURCEDIR)
+	black --check --diff $(SOURCEDIR) tests
 
 test-lint: test_requirements
 	$(ACTIVATE) && \
-	pylint $(SOURCEDIR) --max-line-length=120 --max-attributes=99 --disable=missing-function-docstring
+	pylint $(SOURCEDIR) tests --max-line-length=120 --max-attributes=99 --disable=missing-function-docstring
 
 test-build: test_requirements build
 	./dist/stackzou --version
@@ -62,10 +62,22 @@ test-build: test_requirements build
 	sleep 5 && \
 	../dist/stackzou env simple stack.rm
 
+test-unit: test_requirements
+	$(ACTIVATE) && \
+	PYTHONDONTWRITEBYTECODE=1 coverage run -m pytest && \
+	coverage report
+
+test-coverage: test_requirements
+	$(ACTIVATE) && \
+	coverage report
+
 clean-build:
 	/bin/rm -rf ./build ./dist
 
 clean-venv:
 	/bin/rm -rf ./venv
 
-clean: clean-build clean-venv
+clean-tests:
+	/bin/rm -f ./examples/envs/simple/.configs.env
+
+clean: clean-build clean-venv clean-tests

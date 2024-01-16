@@ -19,7 +19,7 @@ class Docker:
         )
 
     def run(self, command, **kwargs):
-        """Execute a docker command"""
+        """Execute a command"""
         return self.c.run(command, **kwargs)
 
     def configs_create(self, name, in_stream):

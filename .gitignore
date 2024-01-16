@@ -2,3 +2,5 @@
 /dist
 /swarm-app.spec
 /venv
+/.coverage
+/examples/envs/*/.configs.env

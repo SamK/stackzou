@@ -1,0 +1,9 @@
+---
+version: '3.8'
+services:
+  hello:
+    image: hello-world
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
