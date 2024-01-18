@@ -1,6 +1,6 @@
 /build
 /dist
-/swarm-app.spec
+/stackzou.spec
 /venv
 /.coverage
 /examples/envs/*/.configs.env
