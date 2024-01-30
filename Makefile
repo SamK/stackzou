@@ -64,7 +64,7 @@ test-build: test_requirements build
 
 test-unit: test_requirements
 	$(ACTIVATE) && \
-	PYTHONDONTWRITEBYTECODE=1 coverage run -m pytest && \
+	PYTHONDONTWRITEBYTECODE=1 coverage run -m pytest -v && \
 	coverage report
 
 test-coverage: test_requirements
