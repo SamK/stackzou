@@ -1,5 +1,5 @@
 """
-On gère la stack docker par ici
+Subcommands related to the Docker Stack
 """
 from invoke import task
 from stackzou import docker, stack
@@ -7,14 +7,18 @@ from stackzou import docker, stack
 
 @task(name="name")
 def name_(c):
-    """Print the name of the stack"""
+    """
+    Print the name of the stack
+
+    Requires a defined environment.
+    """
     print(stack.name(c.env))
 
 
 @task(help={"command_args": 'exemple: -c "--no-trunc"'})
 def ps(c, command_args=None):
     """
-    Fait un "docker stack ps"
+    Show the current tasks: execute "docker stack ps"
     """
     client = docker.Docker(c)
     client.ps(stack.name(c.env), command_args)
@@ -22,7 +26,7 @@ def ps(c, command_args=None):
 
 @task
 def rm(c):
-    """Fait un "docker stack rm" """
+    """Remove a stack: execute "docker stack rm" """
     client = docker.Docker(c)
     client.rm(stack.name(c.env))
 
@@ -30,7 +34,7 @@ def rm(c):
 @task
 def deploy(c):
     """
-    déploie la stack mais ne fait pas la config ou la validation
+    Deploy the Docker Stack
     """
     client = docker.Docker(c)
     client.deploy(stack.name(c.env))

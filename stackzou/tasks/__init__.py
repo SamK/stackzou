@@ -7,7 +7,9 @@ from . import configs, stack
 
 @task(pre=[configs.create], post=[stack.deploy])
 def deploy(c):  # pylint: disable=unused-argument
-    """Déploie ta stack"""
+    """
+    A shortcut for "configs.create stack.deploy"
+    """
 
 
 @task(name="env")

@@ -1,5 +1,5 @@
 """
-Manipule les "docker configs" et génère les fichiers vars qui vont bien.
+Subcommands related to the Docker Configs.
 """
 import sys
 import pathlib
@@ -11,7 +11,7 @@ from stackzou import configs
 
 @task(name="list")
 def list_(c):
-    """List docker configs"""
+    """List the docker configs"""
     client = docker.Docker(c)
     stack_name = stack.name(c.env)
     print(client.configs_list(stack_name))
@@ -19,6 +19,7 @@ def list_(c):
 
 @task
 def show(c, filename):
+    """Render and print a Docker Config"""
     stack_name = stack.name(c.env)
     config = configs.Config(c, filename, stack_name)
     print(config)
@@ -26,12 +27,7 @@ def show(c, filename):
 
 @task
 def create(c):
-    """
-    Create Docker configs
-
-    Create docker configs (docker config list)
-
-    """
+    """Create a Docker Config"""
 
     if "env" not in c:
         print("ya pas de env lol. il faut spécifier un env", file=sys.stderr)

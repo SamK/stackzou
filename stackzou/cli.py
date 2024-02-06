@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Beaucoup trop genial
+This file is the main CLI.
 """
 import sys
 from invoke import Program, Collection, __version__ as invoke_version

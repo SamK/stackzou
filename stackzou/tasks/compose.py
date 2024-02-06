@@ -1,5 +1,5 @@
 """
-Manipule le fichier docker-compose.yml
+Subcommands related to the docker-compose.yml file
 """
 from invoke import task
 from stackzou import docker
@@ -7,6 +7,6 @@ from stackzou import docker
 
 @task
 def show(c):
-    """Affiche le fichier docker-compose.yml rendered"""
+    """Render and print the docker-compose.yml file"""
     client = docker.Docker(c)
     client.show()

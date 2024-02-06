@@ -1,5 +1,5 @@
 """
-Gère les commandes et les accès à Docker
+Handle the docker client
 """
 import json
 from stackzou import env_files
