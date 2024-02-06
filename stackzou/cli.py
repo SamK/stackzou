@@ -4,14 +4,13 @@ This file is the main CLI.
 """
 import sys
 from invoke import Program, Collection, __version__ as invoke_version
-from stackzou import docker, __version__
+from stackzou import __version__
 from stackzou import tasks
 from stackzou.tasks import configs, stack, compose, env_files
 
 ns = Collection()
 ns.add_collection(compose)
 ns.add_collection(configs)
-ns.add_collection(docker)
 ns.add_collection(env_files)
 ns.add_collection(stack)
 ns.add_task(tasks.deploy)
