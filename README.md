@@ -1,44 +1,75 @@
+# Stackzou
+
+A command line utility to deploy a stack on Docker Swarm.
+
+## Features
+
+* multi-environment
+* env variables
+* config template
+
 ## Usage
 
+Deploy the prod environment:
+
 ```
-stackzou -e env local configs.create stack.deploy
+stackzou env prod deploy
 ```
 
 ## Project structure
 
-Ton projet de ressemble à un truc comme ça:
+Your project **must** contain these files:
+
+* `/docker-compose.yml`: the Docker Compose file
+* `/envs/`: the directory where the environments are stored.
+   Each subdirectory is considered an environment and must contain
+   a `docker-compose.override.yml` file with the values specific to its environment.
+
+Your project **can** contain these files:
+
+* **dotenv files** are any file that ends with `.env`.
+   They can be placed at the root of the project or inside a environment directory.
+   The latter takes precedence.
+   The files `/envs/*/.configs.env` are reserved for Stackzou.
+* **`/configs/`** is the directory where the "Docker Configs" files are stored.
+   Stackzou reads the content of this directory and creates a "Docker Config" with each file it finds.
+   If the filename ends with `.subst`, Stackzou attemps to render the file with the `envsubst` command.
+
+Your project structure might looke like this:
 
 ```
 ./
 ├── configs/
 │   ├── service1/
-│   │   └── index.html
+│   │   └── config.cfg
 │   └── service2/
-│       └── index.html
+│       └── config.cfg
 ├── envs/
 │   ├── local/
 │   │   ├── docker-compose.override.yml
 │   │   └── .env # le fichier doit finir par .env
 │   ├── prod/
-│   │   └── ... pareil
+│   │   └── ... same
 │   └── test/
-│       └── ... pareil
+│       └── ... same
 ├── .env
 └── docker-compose.yml
-```
-
-## Clean
-
-```
-make clean-build clean-venv
-# or
-make clean
 ```
 
 ## Build
 
 ```
 make
+```
+
+You can clean with:
+
+```
+make clean-build clean-venv
+```
+or
+```
+make clean
 ```
 
 ## Test
