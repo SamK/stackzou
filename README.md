@@ -1,4 +1,5 @@
 # Stackzou
+[![Tests](https://github.com/SamK/stackzou/actions/workflows/tests.yml/badge.svg)](https://github.com/SamK/stackzou/actions/workflows/tests.yml)
 
 A command line utility to deploy a stack on Docker Swarm.
 

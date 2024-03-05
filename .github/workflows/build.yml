@@ -1,0 +1,38 @@
+---
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: |
+        make venv requirements
+    - name: Build
+      run: |
+        make
+    - name: Upload binary
+      uses: actions/upload-artifact@v4
+      with:
+        name: executable
+        path: dist/stackzou
+        if-no-files-found: error
+        retention-days: 1
+
+  smoke-tests:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Download binary
+      uses: actions/download-artifact@v4
+      with:
+        name: executable
+    - name: Smoke tests
+      run: |
+        test -f ./stackzou
+        chmod +x ./stackzou
+        ./stackzou --version
+        ./stackzou --help
