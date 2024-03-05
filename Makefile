@@ -42,13 +42,13 @@ $(test_requirements): test_requirements.txt $(requirements)
 install:
 	install ./dist/stackzou ~/.local/bin
 
-tests: test-black test-lint test-build test-unit
+tests: test-black test-pylint test-build test-unit
 
 test-black: test_requirements
 	$(ACTIVATE) && \
 	black --check --diff $(SOURCEDIR) tests
 
-test-lint: test_requirements
+test-pylint: test_requirements
 	$(ACTIVATE) && \
 	pylint $(SOURCEDIR) tests
 
