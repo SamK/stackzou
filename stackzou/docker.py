@@ -1,6 +1,7 @@
 """
 Handle the docker client
 """
+
 import json
 from stackzou import env_files
 

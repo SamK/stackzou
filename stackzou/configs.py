@@ -1,6 +1,7 @@
 """
 Manipule les "docker configs" et génère les fichiers vars qui vont bien.
 """
+
 import os
 import hashlib
 from slugify import slugify

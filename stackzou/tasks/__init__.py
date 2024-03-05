@@ -1,6 +1,7 @@
 """
 Here lie Invoke commands with no subcommands.
 """
+
 from invoke import task
 from . import configs, stack
 

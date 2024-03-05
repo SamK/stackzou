@@ -4,6 +4,7 @@ Test stackzou.docker
 See:
 https://docs.pyinvoke.org/en/stable/concepts/testing.html
 """
+
 import os
 from io import StringIO
 from pathlib import Path

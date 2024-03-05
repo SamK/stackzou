@@ -1,4 +1,5 @@
 """Test suite"""
+
 from invoke import MockContext
 from stackzou import env_files
 from tests.lib import chdir

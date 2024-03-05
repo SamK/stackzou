@@ -1,4 +1,5 @@
 """Test suite"""
+
 from tests.lib import chdir
 from stackzou import stack
 

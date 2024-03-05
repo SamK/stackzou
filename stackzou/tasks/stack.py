@@ -1,6 +1,7 @@
 """
 Subcommands related to the Docker Stack
 """
+
 from invoke import task
 from stackzou import docker, stack
 
