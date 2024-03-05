@@ -87,12 +87,13 @@ make install
 
 ## Release
 
-```
-make clean build tests
-git tag ...
-git push && git push --tags
-make install
-```
+1. Freeze requirements
+1. test, tag and push
+   ```
+   make clean build tests
+   git tag ...
+   git push && git push --tags
+   ```
 
 ## Execute locally
 
