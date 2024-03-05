@@ -1,0 +1,9 @@
+[MESSAGES CONTROL]
+disable=
+  missing-function-docstring
+
+[FORMAT]
+max-line-length=120
+
+[DESIGN]
+max-attributes=99

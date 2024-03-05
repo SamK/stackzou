@@ -50,7 +50,7 @@ test-black: test_requirements
 
 test-lint: test_requirements
 	$(ACTIVATE) && \
-	pylint $(SOURCEDIR) tests --max-line-length=120 --max-attributes=99 --disable=missing-function-docstring
+	pylint $(SOURCEDIR) tests
 
 test-build: test_requirements build
 	./dist/stackzou --version
