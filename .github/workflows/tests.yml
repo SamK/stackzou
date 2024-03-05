@@ -1,0 +1,25 @@
+---
+name: Tests
+
+on: [push]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: |
+        make test_requirements
+    - name: Black
+      run: |
+        make test-black
+    - name: Pylint
+      run: |
+        make test-pylint
+    - name: Unit tests
+      run: |
+        make test-unit
+    - name: Coverage report
+      run: |
+        make test-coverage
