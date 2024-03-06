@@ -55,12 +55,16 @@ test-pylint: test_requirements
 test-build: test_requirements build
 	./dist/stackzou --version
 	./dist/stackzou -l
-	cd examples && \
-	../dist/stackzou env simple compose.show && \
-	../dist/stackzou env simple deploy && \
-	../dist/stackzou env simple stack.ps && \
-	sleep 5 && \
-	../dist/stackzou env simple stack.rm
+	cd examples && ../dist/stackzou env simple compose.show
+	cd examples && ../dist/stackzou env simple deploy
+	cd examples && ../dist/stackzou env simple stack.ps
+	cd examples && ../dist/stackzou env simple stack.ps --format=lines
+	cd examples && ../dist/stackzou env simple stack.ps --format=clines
+	cd examples && ../dist/stackzou env simple stack.ps --format=cclines
+	sleep 5
+	cd examples && ../dist/stackzou env simple stack.ps --format=cclines
+	sleep 5
+	cd examples && ../dist/stackzou env simple stack.rm
 
 test-unit: test_requirements
 	git clean -fdx examples
