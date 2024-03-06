@@ -71,6 +71,11 @@ test-coverage: test_requirements
 	$(ACTIVATE) && \
 	coverage report
 
+test-coverage-html: test_requirements
+	$(ACTIVATE) && \
+	coverage html
+	xdg-open htmlcov/index.html
+
 clean-build:
 	/bin/rm -rf ./build ./dist
 
