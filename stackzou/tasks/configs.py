@@ -20,7 +20,7 @@ def list_(c):
 
 @task
 def show(c, filename):
-    """Render and print a Docker Config"""
+    """Print the properties of a file"""
     stack_name = stack.name(c.env)
     config = configs.Config(c, filename, stack_name)
     print(config)
@@ -28,7 +28,7 @@ def show(c, filename):
 
 @task
 def create(c):
-    """Create a Docker Config"""
+    """Create the Docker Configs"""
 
     if "env" not in c:
         print("ya pas de env lol. il faut spécifier un env", file=sys.stderr)
