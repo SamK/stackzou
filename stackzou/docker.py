@@ -52,7 +52,7 @@ class Docker:
         command = f"{self.cmd_prefix}docker stack ps {stack_name}"
         if cmd_args:
             command = " ".join([command, cmd_args])
-        return self.run(command)
+        return self.run(command, hide="stdout")
 
     def rm(self, stack_name):
         """rm a stack"""
