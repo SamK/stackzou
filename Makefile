@@ -63,6 +63,7 @@ test-build: test_requirements build
 	../dist/stackzou env simple stack.rm
 
 test-unit: test_requirements
+	git clean -fdx examples
 	$(ACTIVATE) && \
 	PYTHONDONTWRITEBYTECODE=1 coverage run -m pytest -v && \
 	coverage report
