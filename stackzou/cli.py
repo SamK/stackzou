@@ -24,7 +24,7 @@ Python: {sys.version}
 Invoke {invoke_version}"""
 
 program = Program(
-    name="Your Swarm app",
+    name="StackZou",
     binary="stackzou",
     version=version,
     namespace=ns,
