@@ -54,7 +54,13 @@ Your project structure might looke like this:
 │   └── test/
 │       └── ... same
 ├── .env
+├── .gitignore
 └── docker-compose.yml
+```
+
+```
+$ cat .gitignore:
+/envs/*/.configs.env
 ```
 
 ## Build
