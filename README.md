@@ -29,8 +29,12 @@ Your project **must** contain these files:
 Your project **can** contain these files:
 
 * **dotenv files** are any file that ends with `.env`.
-   They can be placed at the root of the project or inside a environment directory.
-   The latter takes precedence.
+   They are read in this order:
+
+   1. at the root of the project
+   1. inside a environment directory.
+   1. `~/.secrets/containers/${STACK_NAME}.env` is read by stackzou.
+
    The files `/envs/*/.configs.env` are reserved for Stackzou.
 * **`/configs/`** is the directory where the "Docker Configs" files are stored.
    Stackzou reads the content of this directory and creates a "Docker Config" with each file it finds.
