@@ -26,7 +26,7 @@ Your project **must** contain these files:
    Each subdirectory is considered an environment and must contain
    a `docker-compose.override.yml` file with the values specific to its environment.
 
-Your project **can** contain these files:
+Your project *can* contain these files:
 
 * **dotenv files** are any file that ends with `.env`.
    They are read in this order:
