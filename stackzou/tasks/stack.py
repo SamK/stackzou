@@ -24,7 +24,8 @@ def name_(c):
         "command_args": dedent(
             """\
             Additional options to the ps command:
-            Example: -c "--no-trunc --no-resolve --format 'table {{ .Name }}'"
+            Example 1: -c "--no-trunc --no-resolve --format 'table {{ .Name }}'"
+            Example 2: -c "--filter name=semaphore-prod_semaphore"
             """
         ),
         "format": "des super mise en page: lines|clines|cclines",
