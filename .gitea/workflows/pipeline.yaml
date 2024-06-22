@@ -1,0 +1,97 @@
+---
+name: Build
+on:
+  - push
+  - pull_request
+
+jobs:
+
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: |
+        echo "uname: $(uname -a)"
+        echo "Debian version: $(cat /etc/debian_version)"
+        echo "LSB release: $(lsb_release -a)"
+        make venv requirements
+        apt-get update
+        apt-get install -y python3-dev
+    - name: Build
+      run: |
+        make
+    - name: Upload binary
+      # Gitea 1.22 ? pour fonctionner?
+      # https://github.com/go-gitea/gitea/issues/28853
+      uses: christopherhx/gitea-upload-artifact@v4
+      with:
+        name: executable
+        path: dist/stackzou
+        if-no-files-found: error
+        retention-days: 1
+
+  Smoke-Tests:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Download binary
+      uses: christopherhx/gitea-download-artifact@v4
+      with:
+        name: executable
+    - name: Smoke tests
+      run: |
+        test -f ./stackzou
+        chmod +x ./stackzou
+        ./stackzou --version
+        ./stackzou --help
+
+  Tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: |
+        make test_requirements
+    - name: Black
+      run: |
+        make test-black
+    - name: Pylint
+      run: |
+        make test-pylint
+    - name: Unit tests
+      run: |
+        make test-unit
+    - name: Coverage report
+      run: |
+        make test-coverage
+
+  Release:
+    runs-on: ubuntu-latest
+    if: startsWith(gitea.ref, 'refs/tags/')
+    needs:
+      - Tests
+      - Smoke-Tests
+    steps:
+      - name: setup go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.20.1'
+      - name: Download binary
+        uses: christopherhx/gitea-download-artifact@v4
+        with:
+          name: executable
+      - name: Smoke tests
+        run: |
+          test -f ./stackzou
+          chmod +x ./stackzou
+          ./stackzou --version
+          ./stackzou --help
+      - run: "echo Releasing version ${{ gitea.ref_name }}"
+      - name: Release
+        id: release-action # sert à quoi?
+        uses: https://gitea.com/actions/release-action@main
+        with:
+          files: |-
+            stackzou
+          api_key: '${{ secrets.REPO_TOKEN }}'
