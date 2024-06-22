@@ -69,6 +69,8 @@ $ cat .gitignore:
 
 ## Build
 
+Requires the `python3-dev` package.
+
 ```
 make
 ```
