@@ -110,5 +110,5 @@ make install
 ## Execute locally
 
 ```
-PYTHONPATH=~/Code/stackzou python3 ~/Code/stackzou/stackzou/cli.py -l
+PYTHONPATH=~/Code/stackzou /home/sam/Code/stackzou/venv/bin/python ~/Code/stackzou/stackzou/cli.py -l
 ```
