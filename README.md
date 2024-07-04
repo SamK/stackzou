@@ -35,7 +35,7 @@ Your project *can* contain these files:
    1. inside a environment directory.
    1. `~/.secrets/containers/${STACK_NAME}.env` is read by stackzou.
 
-   The files `/envs/*/.configs.env` are reserved for Stackzou.
+   The files `/envs/*/.stackzou.env` are reserved for Stackzou.
 * **`/configs/`** is the directory where the "Docker Configs" files are stored.
    Stackzou reads the content of this directory and creates a "Docker Config" with each file it finds.
    If the filename ends with `.subst`, Stackzou attemps to render the file with the `envsubst` command.
@@ -64,7 +64,7 @@ Your project structure might looke like this:
 
 ```
 $ cat .gitignore:
-/envs/*/.configs.env
+/envs/*/.stackzou.env
 ```
 
 ## Build

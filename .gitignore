@@ -3,4 +3,4 @@
 /stackzou.spec
 /venv
 /.coverage
-/examples/envs/*/.configs.env
+/examples/envs/*/.stackzou.env

@@ -34,7 +34,7 @@ def create(c):
         print("ya pas de env lol. il faut spécifier un env", file=sys.stderr)
         sys.exit(127)
 
-    envfile = f"envs/{c.env}/.configs.env"
+    envfile = f"envs/{c.env}/.stackzou.env"
     envvars = {}
     stack_name = stack.name(c.env)
     client = docker.Docker(c)
