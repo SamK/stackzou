@@ -88,6 +88,6 @@ clean-venv:
 	/bin/rm -rf ./venv
 
 clean-tests:
-	/bin/rm -f ./examples/envs/simple/.configs.env
+	/bin/rm -f ./examples/envs/simple/.stackzou.env
 
 clean: clean-build clean-venv clean-tests
