@@ -73,3 +73,16 @@ def test_docker_docker_configs_list():
 # def test_docker_docker_configs_ps():
 # def test_docker_docker_configs_rm():
 # def test_docker_docker_configs_deploy():
+
+
+# je me souviens plus comment ça fonctionne ces tests.
+# def test_docker_docker_compose_show_skip_interpolation():
+#     c = MockContext(run=Result())
+#     c.env = "simple"
+#     with chdir("examples"):
+#         client = docker.Docker(c)
+#         #client.stack_args += "--skip-interpolation"
+#         # res = client.run("test-command")
+#         client.show()
+#
+#     # assert res.command == "test-command"

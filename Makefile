@@ -56,6 +56,7 @@ test-build: test_requirements build
 	./dist/stackzou --version
 	./dist/stackzou -l
 	cd examples && ../dist/stackzou env simple compose.show
+	cd examples && ../dist/stackzou env interp compose.show --skip-interpolation
 	cd examples && ../dist/stackzou env simple deploy
 	cd examples && ../dist/stackzou env simple stack.ps
 	cd examples && ../dist/stackzou env simple stack.ps --format=lines
