@@ -43,23 +43,27 @@ def create(c):
     if "docker_configs" not in c:
         c.docker_configs = client.configs_list(stack_name)
 
-    for local_file in configs.local_files(c):
-        found = False
-        for config in c.docker_configs:
-            if config["Name"] == local_file.id:
-                found = True
-                break
+    try:
+        for local_file in configs.local_files(c):
+            found = False
+            for config in c.docker_configs:
+                if config["Name"] == local_file.id:
+                    found = True
+                    break
 
-        if not found:
-            # Create docker configs
-            result = client.configs_create(
-                name=local_file.id, in_stream=StringIO(local_file.value)
-            )
-            docker_config_id = result
-            print(f"Config {local_file.id} updated with id {docker_config_id}.")
+            if not found:
+                # Create docker configs
+                result = client.configs_create(
+                    name=local_file.id, in_stream=StringIO(local_file.value)
+                )
+                docker_config_id = result
+                print(f"Config {local_file.id} updated with id {docker_config_id}.")
 
-        # ca va dans le ficheir de env
-        envvars[local_file.key] = local_file.id
+            # ca va dans le ficheir de env
+            envvars[local_file.key] = local_file.id
+    except UnicodeDecodeError:
+        # there was an error message before
+        sys.exit(4)
 
     if envvars:
         # write in env file and show the result on screen

@@ -3,6 +3,7 @@ Manipule les "docker configs" et génère les fichiers vars qui vont bien.
 """
 
 import os
+import sys
 import hashlib
 from slugify import slugify
 from stackzou import env_files, stack
@@ -53,8 +54,15 @@ class Config:
 
     def _read_file(self):
         """Read a file"""
-        with open(self.path, mode="r", encoding="utf-8") as file:
-            return file.read()
+        try:
+            with open(self.path, mode="r", encoding="utf-8") as file:
+                return file.read()
+        except UnicodeDecodeError as e:
+            print(
+                f"FATAL UnicodeDecodeError: Je peux pas lire le fichier {self.path}: {e}.",
+                file=sys.stderr,
+            )
+            raise
 
     def set_id(self):
         """Define the Docker Config Spec.Name"""
