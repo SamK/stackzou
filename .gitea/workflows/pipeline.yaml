@@ -4,6 +4,11 @@ on:
   - push
   - pull_request
 
+env:
+  HTTP_PROXY: http://swarm-pavi-1.opn.samk.ch:63003
+  HTTPS_PROXY: http://swarm-pavi-1.opn.samk.ch:63003
+  NO_PROXY: gitea.samk.ch,gitea.opn.samk.ch,192.168.6.24
+
 jobs:
 
   Build:
