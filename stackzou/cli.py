@@ -16,6 +16,7 @@ ns.add_collection(stack)
 ns.add_task(tasks.deploy)
 ns.add_task(tasks.set_env)
 ns.add_task(tasks.verbose)
+ns.add_task(tasks.ps)
 # ns.configure({'key': 'value'}) # yes, it is possible to configure from here
 
 version = f"""{__version__}
