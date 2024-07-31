@@ -114,8 +114,10 @@ The generated doc is available at `doc/index.html`.
    git push && git push --tags
    ```
 
-## Execute locally
+## Execute local code
 
 ```
-PYTHONPATH=~/Code/stackzou /home/sam/Code/stackzou/venv/bin/python ~/Code/stackzou/stackzou/cli.py -l
+make requirements
+export PYTHONPATH=$PWD
+alias stackzou="$PWD/venv/python $PWD/stackzou/cli.py"
 ```
