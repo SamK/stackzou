@@ -11,6 +11,13 @@ build: dist/stackzou
 venv:
 	python3 -m venv venv
 
+doc: doc/index.html
+
+doc/index.html: $(SOURCEFILES)
+	$(ACTIVATE) && \
+	pip install --require-virtualenv pdoc && \
+	pdoc stackzou -o doc
+
 dist/stackzou: venv $(SOURCEFILES) $(requirements)
 	$(ACTIVATE) && \
 	pyinstaller \
@@ -42,7 +49,7 @@ $(test_requirements): test_requirements.txt $(requirements)
 install:
 	install ./dist/stackzou ~/.local/bin
 
-tests: test-black test-pylint test-build test-unit
+tests: test-black test-pylint test-build test-unit test-mypy
 
 test-black: test_requirements
 	$(ACTIVATE) && \
@@ -64,7 +71,7 @@ test-build: test_requirements build
 	cd examples && ../dist/stackzou env simple stack.ps
 	cd examples && ../dist/stackzou env simple stack.ps --format=lines
 	cd examples && ../dist/stackzou env simple stack.ps --format=clines
-	cd examples && ../dist/stackzou env simple stack.ps --format=cclines
+	cd examples && ../dist/stackzou verbose env simple stack.ps --format=cclines
 	cd examples && ../dist/stackzou env simple ps
 	sleep 5
 	cd examples && ../dist/stackzou env simple stack.ps --format=cclines
@@ -86,6 +93,11 @@ test-coverage-html: test_requirements
 	coverage html
 	xdg-open htmlcov/index.html
 
+test-mypy: test_requirements
+	$(ACTIVATE) && \
+	mypy $(SOURCEDIR) --pretty --txt-report reports/mypy
+	cat reports/mypy/*
+
 clean-build:
 	/bin/rm -rf ./build ./dist
 
@@ -94,5 +106,9 @@ clean-venv:
 
 clean-tests:
 	/bin/rm -f ./examples/envs/simple/.stackzou.env
+	/bin/rm -rf ./reports
 
-clean: clean-build clean-venv clean-tests
+clean-doc:
+	/bin/rm -rf ./doc
+
+clean: clean-build clean-venv clean-tests clean-doc

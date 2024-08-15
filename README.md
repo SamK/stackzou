@@ -97,6 +97,13 @@ make tests
 make install
 ```
 
+## Build the doc
+
+```
+make doc
+```
+The generated doc is available at `doc/index.html`.
+
 ## Release
 
 1. Freeze requirements

@@ -1,29 +1,37 @@
-"""
-Handle the docker client
+""" Handle the docker client
 """
 
 import json
+from invoke.context import Context
 from stackzou import env_files
 
 
 class Docker:
-    """On tente de dompter la commande docker"""
+    """
+    Abstraction layer of the `docker` command
+    """
 
-    def __init__(self, c):
+    def __init__(self, c: Context) -> None:
         self.c = c
+        """The *Invoke context*"""
         self.c.config.runners.local.input_sleep = 0
         self.cmd_prefix = env_files.cmd_prefix(c)
+        """The command prefix set by stackzou.env_files.cmd_prefix"""
         self.stack_args = (
             "--compose-file docker-compose.yml"
             " "
             f"--compose-file envs/{self.c.env}/docker-compose.override.yml"
         )
+        """
+        The arguments when executing `docker stack`.
+        These are usually building the compose files
+        """
 
-    def run(self, command, **kwargs):
-        """Execute a command"""
+    def run(self, command: str, **kwargs):
+        """Execute a shell command"""
         return self.c.run(command, **kwargs)
 
-    def configs_create(self, name, in_stream):
+    def configs_create(self, name: str, in_stream) -> str:
         """
         Create a config
 
@@ -33,7 +41,7 @@ class Docker:
         result = self.run(command, in_stream=in_stream, hide="stdout")
         return result.stdout.strip()
 
-    def configs_list(self, stack_name):
+    def configs_list(self, stack_name: str) -> list:
         """List the configs"""
         configs = []
         command = f"{self.cmd_prefix}docker config list --format json --filter name={stack_name}"
@@ -42,7 +50,7 @@ class Docker:
             configs.append(json.loads(line))
         return configs
 
-    def show(self):
+    def show(self) -> None:
         """Show the docker compose"""
         command = f"{self.cmd_prefix}docker stack config {self.stack_args}"
         self.run(command)

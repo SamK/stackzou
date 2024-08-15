@@ -6,41 +6,46 @@ import os
 import sys
 import hashlib
 from slugify import slugify
+from invoke.context import Context
 from stackzou import env_files, stack
 
 
 class Config:
     """
     Create and update Docker Configs
-
-    Arguments:
-      c:            the Invoke class
-      path:         the path to the local file
-      stack_name:   the name of the stack
-      configs_path: the location where the files are stored
-
-    Attributes:
-      key:     the key of the file
-      hash:    a unique identifier based on the file properties
-      id:      the Docker Config ID
-      content: the content of the file
-      value:   the rendered config
     """
+
+    c: Context
+    """The invoke class"""
+
+    path: str
+    """The path to the local file"""
+
+    stack_name: str
+    """the name of the stack"""
+
+    configs_path: str
+    """the location where the files are stored"""
 
     def __init__(self, c, path, stack_name, configs_path="configs"):
         self.c = c
         self.path = path
-        self.configs_path = configs_path
         self.stack_name = stack_name
+        self.configs_path = configs_path
 
         self.key = None
+        """the key of the file"""
         self.hash = None
+        """a unique identifier based on the file properties"""
         self.id = None
+        """the Docker Config ID"""
         self.content = None
+        """the content of the file"""
         self.value = None
+        """the rendered config"""
         self.update()
 
-    def update(self):
+    def update(self) -> None:
         """
         Update the properties of the object.
 
@@ -52,7 +57,7 @@ class Config:
         self.set_hash()
         self.set_id()
 
-    def _read_file(self):
+    def _read_file(self) -> str:
         """Read a file"""
         try:
             with open(self.path, mode="r", encoding="utf-8") as file:
@@ -64,22 +69,22 @@ class Config:
             )
             raise
 
-    def set_id(self):
+    def set_id(self) -> None:
         """Define the Docker Config Spec.Name"""
         self.id = f"{self.stack_name}_{self.key}-{self.hash}"
 
-    def render(self):
-        """Define the Docker Config Spec.Data"""
+    def render(self) -> str:
+        """Return the Docker Config Spec.Data"""
         if self.path.endswith(".subst"):
             result = self.c.run(
                 env_files.cmd_prefix(self.c)
                 + f"set -o nounset && envsubst < {self.path}",
                 hide="stdout",
             )
-            return result.stdout
+            return str(result.stdout)  # type: ignore[union-attr]
         return self.content
 
-    def set_key(self):
+    def set_key(self) -> None:
         """Define the Docker Config key"""
         key = self.path
         if self.path.startswith(self.configs_path):
@@ -87,7 +92,7 @@ class Config:
         key = key.strip("/")
         self.key = slugify(key, separator="_").upper()
 
-    def set_hash(self):
+    def set_hash(self) -> None:
         """
         Define the hash of the Docker Config
         """
@@ -95,7 +100,7 @@ class Config:
             :8
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return the class as a string"""
         props = {"path": self.path, "id": self.id, "key": self.key, "hash": self.hash}
         result = []
@@ -105,7 +110,7 @@ class Config:
         return "\n".join(result)
 
 
-def local_files(c):
+def local_files(c) -> list:
     """
     Return a list of Config objects
     """

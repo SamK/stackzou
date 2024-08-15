@@ -9,18 +9,19 @@ Define env vars for
 import os
 import sys
 from pathlib import Path
+from invoke.context import Context
 from stackzou import stack
 from stackzou import log
 
 
-def envpath(c):
+def envpath(c: Context) -> str:
     """
     Return the path to the current environment
     """
     return f"envs/{c.env}"
 
 
-def dir_(path, basename):
+def dir_(path: str, basename: bool) -> list:
     """
     Return une liste de fichiers env existants dans un dossier
 
@@ -49,7 +50,7 @@ def dir_(path, basename):
     return return_value
 
 
-def find_envfiles(c):
+def find_envfiles(c: Context) -> list:
     """Retourne une list de envfiles existants relatifs à l'environment actuel"""
     secret_file = f"{Path.home()}/.secrets/containers/{stack.name(c.env)}.env"
     env_dir = f"envs/{c.env}"
@@ -62,7 +63,7 @@ def find_envfiles(c):
     return found_envfiles
 
 
-def cmd_prefix(c, suffix=" && "):
+def cmd_prefix(c: Context, suffix: str = " && ") -> str:
     """
     Fais les trucs de variable d'environnement
     """

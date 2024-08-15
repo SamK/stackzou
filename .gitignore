@@ -4,3 +4,6 @@
 /venv
 /.coverage
 /examples/envs/*/.stackzou.env
+/examples/envs/*/.configs.env
+/doc
+/reports

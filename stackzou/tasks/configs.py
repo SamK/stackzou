@@ -6,12 +6,13 @@ import sys
 import pathlib
 from io import StringIO
 from invoke import task
+from invoke.context import Context
 from stackzou import docker, stack, rc_file
 from stackzou import configs
 
 
 @task(name="list")
-def list_(c):
+def list_(c: Context) -> None:
     """List the docker configs"""
     client = docker.Docker(c)
     stack_name = stack.name(c.env)
@@ -19,7 +20,7 @@ def list_(c):
 
 
 @task
-def show(c, filename):
+def show(c: Context, filename: str) -> None:
     """Print the properties of a file"""
     stack_name = stack.name(c.env)
     config = configs.Config(c, filename, stack_name)
@@ -27,7 +28,7 @@ def show(c, filename):
 
 
 @task
-def create(c):
+def create(c: Context) -> None:
     """Create the Docker Configs"""
 
     if "env" not in c:

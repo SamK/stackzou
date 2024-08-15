@@ -2,14 +2,15 @@
 Here lie Invoke commands with no subcommands.
 """
 
-from invoke import task, call
+from invoke import task, call  # type: ignore[attr-defined]
+from invoke.context import Context
 from stackzou import docker
 from stackzou import stack as stackzou_stack
 from . import configs, stack
 
 
 @task(pre=[configs.create], post=[stack.deploy])
-def deploy(c):  # pylint: disable=unused-argument
+def deploy(c: Context) -> None:  # pylint: disable=unused-argument
     """
     A shortcut for "configs.create stack.deploy"
     """
@@ -23,7 +24,7 @@ def ps(_):
 
 
 @task(name="env")
-def set_env(c, env):
+def set_env(c: Context, env: str) -> None:
     """
     Define the environment to manipulate.
 
@@ -33,7 +34,7 @@ def set_env(c, env):
 
 
 @task
-def verbose(c):
+def verbose(c: Context) -> None:
     """Enable verbose mode"""
     if "loglevel" in c:
         c.loglevel += 1

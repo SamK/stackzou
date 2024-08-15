@@ -7,7 +7,7 @@ import json
 from types import SimpleNamespace
 
 
-def name(env):
+def name(env: str) -> str:
     """Return the name of the stack"""
     value = os.path.basename(os.getcwd())
     value = value.removesuffix("-deploy")
@@ -31,13 +31,13 @@ Col = SimpleNamespace(
 )
 
 
-def col(color, words):
+def col(color: str, words: str) -> str:
     """colorize a string"""
     color = color.upper()
     return f"{getattr(Col, color)}{words}{getattr(Col, 'ENDC')}"
 
 
-def first_word(phrase):
+def first_word(phrase: str) -> str:
     """Return the first word of a phrase"""
 
     # special case where there is no word
@@ -47,12 +47,12 @@ def first_word(phrase):
     return phrase.split(None, 1)[0]
 
 
-def cut(phrase, length):
+def cut(phrase: str, length: int) -> str:
     """make a string "length" short"""
     return phrase[:length]
 
 
-def colorize_ps_fields(ps_task):
+def colorize_ps_fields(ps_task: dict[str, str]) -> dict:
     """
     colorize the fields of "docker stack ps"
     """
@@ -91,7 +91,13 @@ def colorize_ps_fields(ps_task):
     return t
 
 
-def format_ps_lines(ps_stdout, colorize, history, error_on_new_line, shorten_id=6):
+def format_ps_lines(
+    ps_stdout: list[dict],
+    colorize: bool,
+    history: bool,
+    error_on_new_line: bool,
+    shorten_id: int = 6,
+) -> str:
 
     formatted_lines = []
 
@@ -135,7 +141,7 @@ def format_ps_lines(ps_stdout, colorize, history, error_on_new_line, shorten_id=
     return "\n".join(formatted_lines)
 
 
-def parse_ps(ps_out):
+def parse_ps(ps_out: str) -> list:
     """
     Return the output of "docker stack ps"
     """
