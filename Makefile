@@ -55,8 +55,10 @@ test-pylint: test_requirements
 test-build: test_requirements build
 	./dist/stackzou --version
 	./dist/stackzou -l
-	cd examples && ../dist/stackzou env simple compose.show
+	cd examples && ../dist/stackzou env simple configs.create compose.show | grep examples-simple_EXAMPLE_CONF_SUBST-e7738eba
 	cd examples && ../dist/stackzou env interp compose.show --skip-interpolation
+	cd examples && ../dist/stackzou env vars configs.show configs/example.conf.subst | grep "Value.*vars"
+	cd examples && ../dist/stackzou env interp configs.show configs/example.conf.subst | grep "Value.*root"
 	cd examples && ../dist/stackzou env simple deploy
 	cd examples && ../dist/stackzou env simple stack.ps
 	cd examples && ../dist/stackzou env simple stack.ps --format=lines

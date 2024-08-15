@@ -7,3 +7,11 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 3
+    configs:
+      - source: example.conf
+        target: /example.conf
+
+configs:
+  "example.conf":
+    external: true
+    name: "${EXAMPLE_CONF_SUBST?}"
