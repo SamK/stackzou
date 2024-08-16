@@ -12,7 +12,7 @@ env:
 jobs:
 
   Build:
-    runs-on: ubuntu-latest
+    runs-on: jammy-samk
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
@@ -21,8 +21,6 @@ jobs:
         echo "Debian version: $(cat /etc/debian_version)"
         echo "LSB release: $(lsb_release -a)"
         make venv requirements
-        apt-get update
-        apt-get install -y python3-dev
     - name: Build
       run: |
         make
@@ -37,7 +35,7 @@ jobs:
         retention-days: 1
 
   Smoke-Tests:
-    runs-on: ubuntu-latest
+    runs-on: jammy-samk
     needs: Build
     steps:
     - name: Download binary
@@ -52,7 +50,7 @@ jobs:
         ./stackzou --help
 
   Tests:
-    runs-on: ubuntu-latest
+    runs-on: jammy-samk
     needs: Smoke-Tests
     steps:
     - uses: actions/checkout@v4
@@ -73,7 +71,7 @@ jobs:
         make test-coverage
 
   Release:
-    runs-on: ubuntu-latest
+    runs-on: jammy-samk
     if: startsWith(gitea.ref, 'refs/tags/')
     needs:
       - Build
