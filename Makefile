@@ -60,10 +60,12 @@ test-build: test_requirements build
 	cd examples && ../dist/stackzou env vars configs.show configs/example.conf.subst | grep "Value.*vars"
 	cd examples && ../dist/stackzou env interp configs.show configs/example.conf.subst | grep "Value.*root"
 	cd examples && ../dist/stackzou env simple deploy
+	cd examples && ../dist/stackzou env simple ps
 	cd examples && ../dist/stackzou env simple stack.ps
 	cd examples && ../dist/stackzou env simple stack.ps --format=lines
 	cd examples && ../dist/stackzou env simple stack.ps --format=clines
 	cd examples && ../dist/stackzou env simple stack.ps --format=cclines
+	cd examples && ../dist/stackzou env simple ps
 	sleep 5
 	cd examples && ../dist/stackzou env simple stack.ps --format=cclines
 	sleep 5

@@ -2,8 +2,9 @@
 version: '3.8'
 services:
   hello:
-    image: hello-world
+    image: httpd
     deploy:
+      replicas: 3
       restart_policy:
         condition: on-failure
         max_attempts: 3

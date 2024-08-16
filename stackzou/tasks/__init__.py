@@ -2,7 +2,9 @@
 Here lie Invoke commands with no subcommands.
 """
 
-from invoke import task
+from invoke import task, call
+from stackzou import docker
+from stackzou import stack as stackzou_stack
 from . import configs, stack
 
 
@@ -10,6 +12,13 @@ from . import configs, stack
 def deploy(c):  # pylint: disable=unused-argument
     """
     A shortcut for "configs.create stack.deploy"
+    """
+
+
+@task(pre=[call(stack.ps_, format_="cclines")])
+def ps(_):
+    """
+    raccourci pour "stack.ps -c cclines"
     """
 
 
